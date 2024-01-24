@@ -76,6 +76,21 @@ CREATE TABLE users();
 DROP TABLE users;
 ```
 
+## Journera Additions
+
+We've updated the migrator to work on the [fs.FS](https://pkg.go.dev/io/fs#FS)
+interface, to allow for go embedding. From a use perspective everything
+is the same, but there are now two additional functions for using a
+filesystem instead of a path:
+
+``` go
+fsys := os.DirFS("path/to/migrations")
+
+migrator, _ := gomigrate.NewMigratorWithFs(db, gomigrate.Postgres{}, fsys)
+// or
+migrator, _ := gomigrate.NewMigratorWithLoggerFs(db, gomigrate.Postgres{}, fsys, logrus.New())
+```
+
 ## Copyright
 
 Copyright (c) 2014 David Huie. See LICENSE.txt for further details.
